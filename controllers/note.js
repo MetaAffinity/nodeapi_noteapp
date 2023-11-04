@@ -81,7 +81,7 @@ export const deleteNote = async (req, res, next) => {
 
 export const deleteAll = async (req, res, next) => {
     try {
-        const note = await Note.find();
+        const notes = await Note.find();
         if(notes.length > 0){
             return res.status(400).json({
                 success:false,
@@ -89,7 +89,7 @@ export const deleteAll = async (req, res, next) => {
                 data:[]
             })
         }
-        await Note.deleteMany();
+        await notes.deleteMany();
 
         res.status(200).json({
             success:true,
