@@ -8,6 +8,7 @@ const router = express.Router();
 
 
 
+router.get('/all', getNote)
 router.post('/newnote',isAuthenticated,  newNote, )
 router.get('/my',isAuthenticated, getNote)
 router.delete('/deleteall',isAuthenticated, deleteAll)

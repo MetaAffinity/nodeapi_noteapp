@@ -40,6 +40,14 @@ export const getNote = async (req, res, next) => {
     }
 }
 
+export const getAllnotes = async (req, res) =>{
+    const notes = await Note.find();
+    res.status(200).json({
+        success: true,
+        notes
+    })
+}
+
 export const updateNote = async (req, res, next) => {
     try {
         const {title, description} = req.body;
@@ -90,7 +98,7 @@ export const deleteAll = async (req, res, next) => {
                 data: []
             });
         }
-        
+
         res.status(200).json({
             success:true,
             message:"Note deleted successfully",
