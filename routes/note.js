@@ -10,9 +10,9 @@ const router = express.Router();
 
 router.post('/newnote',isAuthenticated,  newNote, )
 router.get('/my',isAuthenticated, getNote)
-router.delete('/deleteall',isAuthenticated, deleteAll)
+//router.delete('/deleteall',isAuthenticated, deleteAll)
 router.route("/:id")
 .put(isAuthenticated, updateNote)
-.delete(isAuthenticated,deleteNote)
+.delete(isAuthenticated,deleteNote,deleteAll)
 
 export default router;
