@@ -82,14 +82,14 @@ export const deleteNote = async (req, res, next) => {
 export const deleteAll = async (req, res, next) => {
     try {
         const notes = await Note.find();
-        if(notes.length > 0){
-            return res.status(400).json({
+        if(notes.length === 0){
+            return res.status(404).json({
                 success:false,
                 message:"Notes not found",
                 data:[]
             })
         }
-        await notes.deleteMany();
+        await notes.deleteMany({});
 
         res.status(200).json({
             success:true,
