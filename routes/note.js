@@ -1,6 +1,6 @@
 import express from 'express';
 import  {isAuthenticated}  from '../middlewares/auth.js';
-import { getNote, newNote, updateNote, deleteNote, deleteAll } from '../controllers/note.js';
+import { getNote, newNote, updateNote, deleteNote, deleteAll, getAllnotes } from '../controllers/note.js';
 
 
 
@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 
-router.get('/all', getNote)
+router.get('/all', getAllnotes)
 router.post('/newnote',isAuthenticated,  newNote, )
 router.get('/my',isAuthenticated, getNote)
 router.delete('/deleteall',isAuthenticated, deleteAll)
