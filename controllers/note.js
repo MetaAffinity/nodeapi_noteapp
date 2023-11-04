@@ -81,16 +81,16 @@ export const deleteNote = async (req, res, next) => {
 export const deleteAll = async (req, res, next) => {
     try {
         const userid = req.user._id;
-        const notes = await Note.find({user:userid});
-        if(notes.length === 0){
+        const result = await Note.deleteMany({ user: userid })
+        
+        if (result.deletedCount === 0) {
             return res.status(404).json({
-                success:false,
-                message:"Notes not found",
-                data:[]
-            })
+                success: false,
+                message: "No notes found",
+                data: []
+            });
         }
-        await notes.deleteMany({});
-
+        
         res.status(200).json({
             success:true,
             message:"Note deleted successfully",
