@@ -2,14 +2,17 @@ import {Note} from '../models/note.js';
 import ErrorHandler from '../middlewares/error.js';
 
 
+
+
 export const newNote = async (req, res, next) => {
+
     try {
             const {title, description} = req.body;
             
             await Note.create({
                 title,
                 description,
-                user:req.user
+                user:req.user,
             })
         
             res.status(201).json({
@@ -69,6 +72,23 @@ export const deleteNote = async (req, res, next) => {
         res.status(200).json({
             success:true,
             message:"Note deleted successfully"
+        })
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+export const deleteAll = async (req, res, next) => {
+    try {
+        const note = await Note.find();
+        if(!note) return next(new ErrorHandler("Note not found",404))
+        await note.deleteMany();
+
+        res.status(200).json({
+            success:true,
+            message:"Note deleted successfully",
+            data:{}
         })
     } catch (error) {
         next(error)
