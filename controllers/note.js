@@ -5,7 +5,6 @@ import ErrorHandler from '../middlewares/error.js';
 
 
 export const newNote = async (req, res, next) => {
-
     try {
             const {title, description} = req.body;
             
