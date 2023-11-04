@@ -81,7 +81,7 @@ export const deleteNote = async (req, res, next) => {
 
 export const deleteAll = async (req, res, next) => {
     try {
-        const notes = await Note.find();
+        const notes = await Note.find(req.user._id);
         if(notes.length === 0){
             return res.status(404).json({
                 success:false,
