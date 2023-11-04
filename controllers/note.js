@@ -82,8 +82,14 @@ export const deleteNote = async (req, res, next) => {
 export const deleteAll = async (req, res, next) => {
     try {
         const note = await Note.find();
-        if(!note) return next(new ErrorHandler("Note not found",404))
-        await note.deleteMany();
+        if(notes.length > 0){
+            return res.status(400).json({
+                success:false,
+                message:"Notes not found",
+                data:[]
+            })
+        }
+        await Note.deleteMany();
 
         res.status(200).json({
             success:true,
