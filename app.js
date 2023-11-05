@@ -4,11 +4,11 @@ import cookieParser from 'cookie-parser';
 import {errorMiddleware} from './middlewares/error.js';
 import userRouter from './routes/user.js';
 import noteRouter from './routes/note.js';
+import cors from 'cors';
 
 
 export const app = express()
 
-import cors from 'cors';
 
 config({
     path: "./config.env",
