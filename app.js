@@ -18,8 +18,10 @@ config({
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  origin: [process.env.FRONTEND_URL],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: "https://react-noteapp-ruddy.vercel.app",
+  methods: "GET, POST, PUT, DELETE",
+  //origin: [process.env.FRONTEND_URL],
+  //methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,  //for pass cookies
 }))
 
