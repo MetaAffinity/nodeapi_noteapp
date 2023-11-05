@@ -41,7 +41,7 @@ export const getNote = async (req, res, next) => {
 }
 
 export const getAllnotes = async (req, res) =>{
-    const notes = await Note.find(); //  .populate('user')  for  get user name from user collection 
+    const notes = await Note.find().populate('user'); //  .populate('user')  for  get user name from user collection 
     
     //if(!notes) return next(new ErrorHandler("Notes not found",404))
     
