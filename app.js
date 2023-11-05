@@ -18,7 +18,7 @@ config({
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  origin: "https://react-noteapp-ruddy.vercel.app",
+  origin: ["https://react-noteapp-ruddy.vercel.app","https://react-noteapp-metaaffinity.vercel.app"],
   methods: "GET, POST, PUT, DELETE",
   //origin: [process.env.FRONTEND_URL],
   //methods: ["GET", "POST", "PUT", "DELETE"],
