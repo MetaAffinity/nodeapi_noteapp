@@ -1,4 +1,5 @@
 import {Note} from '../models/note.js';
+import  Like from '../models/like.js';
 import ErrorHandler from '../middlewares/error.js';
 //import * as next from 'next';
 
@@ -115,28 +116,91 @@ export const deleteAll = async (req, res, next) => {
 
 }
 
-export const likes = async (req,res, next) =>{
+// export const likes = async (req,res, next) =>{
+//     try {
+//         const note = await Note.findById(req.params.id);
+    
+//         if(!note) return next(new ErrorHandler("Note not found",404))
+    
+//         // check if note is already liked
+//         if(note.likes.filter(like=>like.user.toString() === req.user.id).length > 0) {
+//             return next(new ErrorHandler("Note already liked",400))
+//         }
+//         note.likes.unshift({user:req.user.id});
+    
+//         // note.likes = note.likes + 1;
+//         await note.save();
+    
+//         res.json(note.likes);
+    
+//     } catch (error) {
+//         console.log(error);
+//         //res.status(500).send("Error saving")
+//         next(error)
+//     }
+
+
+// }
+
+
+
+
+
+// Like a note
+export const likeNote = async (req, res, next) => {
     try {
-        const note = await Note.findById(req.params.id);
-    
-        if(!note) return next(new ErrorHandler("Note not found",404))
-    
-        // check if note is already liked
-        if(note.likes.some(like=>like.user.toString() === req.user.id).length > 0) {
-            return next(new ErrorHandler("Note already liked",400))
-        }
-        note.likes.unshift({user:req.user.id});
-    
-        // note.likes = note.likes + 1;
-        await note.save();
-    
-        res.json(note.likes);
-    
+      const note = await Note.findById(req.params.id);
+  
+      if (!note) {
+        return next(new ErrorHandler('Note not found', 404));
+      }
+  
+      // Check if the user has already liked the note
+      const existingLike = await Like.findOne({ user: req.user.id, note: req.params.id });
+  
+      if (existingLike) {
+        return next(new ErrorHandler('Note already liked', 400));
+      }
+  
+      // Create a new Like entry
+      const like = new Like({ user: req.user.id, note: req.params.id });
+  
+      await like.save();
+  
+      // Add the like reference to the note
+      note.likes.push(like);
+      await note.save();
+  
+      res.json({ success: true, message: 'Note liked' });
     } catch (error) {
-        console.log(error);
-        //res.status(500).send("Error saving")
-        next(error)
+      console.error(error);
+      next(error);
     }
-
-
-}
+  };
+  
+  // Unlike a note
+  export const unlikeNote = async (req, res, next) => {
+    try {
+      const note = await Note.findById(req.params.id);
+  
+      if (!note) {
+        return next(new ErrorHandler('Note not found', 404));
+      }
+  
+      // Check if the user has liked the note
+      const existingLike = await Like.findOneAndDelete({ user: req.user.id, note: req.params.id });
+  
+      if (!existingLike) {
+        return next(new ErrorHandler('Note not liked', 400));
+      }
+  
+      // Remove the like reference from the note
+      note.likes = note.likes.filter(like => like.toString() !== existingLike._id.toString());
+      await note.save();
+  
+      res.json({ success: true, message: 'Note unliked' });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };

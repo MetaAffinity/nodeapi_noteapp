@@ -16,8 +16,8 @@ const noteschema = new mongoose.Schema({
     },
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-    }],
+        ref: 'Like',
+      }],
     createdAt:{
         type:Date,
         default:Date.now,
