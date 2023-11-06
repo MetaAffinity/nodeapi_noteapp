@@ -1,5 +1,6 @@
 import {Note} from '../models/note.js';
 import ErrorHandler from '../middlewares/error.js';
+//import * as next from 'next';
 
 
 
@@ -111,5 +112,31 @@ export const deleteAll = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+
+}
+
+export const likes = async (req,res, next) =>{
+    try {
+        const note = await Note.findById(req.params.id);
+    
+        if(!note) return next(new ErrorHandler("Note not found",404))
+    
+        // check if note is already liked
+        if(note.likes.some(like=>like.user.toString() === req.user.id).length > 0) {
+            return next(new ErrorHandler("Note already liked",400))
+        }
+        note.likes.unshift({user:req.user.id});
+    
+        // note.likes = note.likes + 1;
+        await note.save();
+    
+        res.json(note.likes);
+    
+    } catch (error) {
+        console.log(error);
+        //res.status(500).send("Error saving")
+        next(error)
+    }
+
 
 }
