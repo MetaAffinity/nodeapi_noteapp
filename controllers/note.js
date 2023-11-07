@@ -204,3 +204,29 @@ export const likeNote = async (req, res, next) => {
       next(error);
     }
   };
+
+
+
+// export const likeNote = async (req, res) => {
+//     try {
+//         const note = await Note.findById(req.params.id);
+
+//         if(note.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+//             return res.status(400).json({
+//                 success:false,
+//                 message:"Note already liked"
+//             })
+        
+//         }
+
+//         note.likes.unshift({user:req.user.id});
+
+//         await note.save();
+//         res.json(note.likes);
+//     } catch (error) {
+//         console.log(error.message)
+//             res.status(500).send("server errror")
+        
+//     }
+
+// }
