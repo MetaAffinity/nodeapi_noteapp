@@ -205,67 +205,28 @@ export const likeNote = async (req, res, next) => {
     }
   };
 
-  export const getLikedUsers = async (req, res) => {
-    try {
-      const noteId = req.params.id;
-  
-      const note = await Note.findById(noteId).populate('likes', 'name'); // Assuming 'name' is a field in the User model
-  
-      if (!note) {
-        return res.status(404).json({ message: 'Note not found' });
-      }
-  
-      if (note.likes && note.likes.length > 0) {
-        const likedUserNames = note.likes.map((like) => like.name);
-        res.json({ success: true, likedUsers: likedUserNames });
-      } else {
-        res.json({ success: true, likedUsers: [] });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
-  
-  
-  
-  
-  // Fetch disliked users for a note
-  export const getDislikedUsers = async (req, res) => {
-    try {
-      const noteId = req.params.noteId;
-      const note = await Note.findById(noteId).populate('dislikes', 'name'); // Assuming 'username' is a field in the User model
-  
-      if (!note) {
-        return res.status(404).json({ message: 'Note not found' });
-      }
 
   
-      res.json({ dislikedUsers: note.dislikes });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
-  // liked users
-//   export const getLikedUsers = async (req, res, next) => {
-//     try {
-//       const note = await Note.findById(req.params.id);
   
-//       if (!note) {
-//         return next(new ErrorHandler('Note not found', 404));
-//       }
+  //liked users
+  export const getLikedUsers = async (req, res, next) => {
+    try {
+      const note = await Note.findById(req.params.id).populate('likes.user','name');
   
-//       const likedUsers = note.likes.map(like => like.user);
+      if (!note) {
+        return next(new ErrorHandler('Note not found', 404));
+      }
+  
+      const likedUsers = note.likes.map(like => like.user);
       
   
-//       res.json({ success: true, likedUsers });
-//     } catch (error) {
-//       console.error(error);
-//       next(error);
-//     }
+      res.json({ success: true, likedUsers });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
 
-//   }
+  }
 
 //   export const getDislikedUsers = async(req, res, next) => {
 //     try {
