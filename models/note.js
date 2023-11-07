@@ -14,10 +14,10 @@ const noteschema = new mongoose.Schema({
         ref:"user",
         required:true,
     },
-    // likes: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Like',
-    //   }],
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Like',
+      }],
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     createdAt:{
