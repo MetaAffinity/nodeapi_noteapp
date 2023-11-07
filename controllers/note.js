@@ -1,5 +1,5 @@
 import {Note} from '../models/note.js';
-//import  Like from '../models/like.js';
+import  Like from '../models/like.js';
 import ErrorHandler from '../middlewares/error.js';
 //import * as next from 'next';
 
