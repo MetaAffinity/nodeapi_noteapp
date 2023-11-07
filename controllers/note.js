@@ -1,5 +1,5 @@
 import {Note} from '../models/note.js';
-import  Like from '../models/like.js';
+//import  Like from '../models/like.js';
 import ErrorHandler from '../middlewares/error.js';
 //import * as next from 'next';
 
@@ -205,22 +205,30 @@ export const likeNote = async (req, res, next) => {
     }
   };
 
-
   export const getLikedUsers = async (req, res) => {
     try {
       const noteId = req.params.id;
-      const note = await Note.findById(noteId).populate('likes', 'name'); // Assuming 'username' is a field in the User model
+  
+      const note = await Note.findById(noteId).populate('likes', 'name'); // Assuming 'name' is a field in the User model
   
       if (!note) {
         return res.status(404).json({ message: 'Note not found' });
       }
   
-      res.json({ likedUsers: note.likes });
+      if (note.likes && note.likes.length > 0) {
+        const likedUserNames = note.likes.map((like) => like.name);
+        res.json({ success: true, likedUsers: likedUserNames });
+      } else {
+        res.json({ success: true, likedUsers: [] });
+      }
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
+  
+  
+  
   
   // Fetch disliked users for a note
   export const getDislikedUsers = async (req, res) => {
@@ -231,6 +239,7 @@ export const likeNote = async (req, res, next) => {
       if (!note) {
         return res.status(404).json({ message: 'Note not found' });
       }
+
   
       res.json({ dislikedUsers: note.dislikes });
     } catch (error) {
