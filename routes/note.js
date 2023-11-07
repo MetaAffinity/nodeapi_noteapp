@@ -14,10 +14,10 @@ router.put('/like/:id', isAuthenticated, likeNote);
 // Unlike a note
 router.put('/dislike/:id', isAuthenticated, unlikeNote);
 
-// Fetch liked users for a note
-router.get('/like/:id/users', isAuthenticated, getLikedUsers);
-// Fetch disliked users for a note
-router.get('/dislike/:id/users', isAuthenticated);
+// // Fetch liked users for a note
+// router.get('/like/:id/users', isAuthenticated, getLikedUsers);
+// // Fetch disliked users for a note
+// router.get('/dislike/:id/users', isAuthenticated);
 
 
 router.get('/all', getAllnotes)
