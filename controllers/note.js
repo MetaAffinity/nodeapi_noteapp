@@ -208,7 +208,7 @@ export const likeNote = async (req, res, next) => {
 
   export const getLikedUsers = async (req, res) => {
     try {
-      const noteId = req.params.noteId;
+      const noteId = req.params.id;
       const note = await Note.findById(noteId).populate('likes', 'name'); // Assuming 'username' is a field in the User model
   
       if (!note) {

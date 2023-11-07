@@ -15,7 +15,7 @@ router.put('/like/:id', isAuthenticated, likeNote);
 router.put('/dislike/:id', isAuthenticated, unlikeNote);
 
 // Fetch liked users for a note
-router.get('/like/:id/users', isAuthenticated, getLikedUsers);
+router.get('/like/:id', isAuthenticated, getLikedUsers);
 // Fetch disliked users for a note
 router.get('/dislike/:id/users', isAuthenticated, getDislikedUsers);
 
