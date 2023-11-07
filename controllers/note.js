@@ -206,6 +206,80 @@ export const likeNote = async (req, res, next) => {
   };
 
 
+  export const getLikedUsers = async (req, res) => {
+    try {
+      const noteId = req.params.noteId;
+      const note = await Note.findById(noteId).populate('likes', 'name'); // Assuming 'username' is a field in the User model
+  
+      if (!note) {
+        return res.status(404).json({ message: 'Note not found' });
+      }
+  
+      res.json({ likedUsers: note.likes });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+  // Fetch disliked users for a note
+  export const getDislikedUsers = async (req, res) => {
+    try {
+      const noteId = req.params.noteId;
+      const note = await Note.findById(noteId).populate('dislikes', 'name'); // Assuming 'username' is a field in the User model
+  
+      if (!note) {
+        return res.status(404).json({ message: 'Note not found' });
+      }
+  
+      res.json({ dislikedUsers: note.dislikes });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  // liked users
+//   export const getLikedUsers = async (req, res, next) => {
+//     try {
+//       const note = await Note.findById(req.params.id);
+  
+//       if (!note) {
+//         return next(new ErrorHandler('Note not found', 404));
+//       }
+  
+//       const likedUsers = note.likes.map(like => like.user);
+      
+  
+//       res.json({ success: true, likedUsers });
+//     } catch (error) {
+//       console.error(error);
+//       next(error);
+//     }
+
+//   }
+
+//   export const getDislikedUsers = async(req, res, next) => {
+//     try {
+//         const note = await Note.findById(req.params.id);
+  
+//         if (!note) {
+//           return next(new ErrorHandler('Note not found', 404));
+//         }
+  
+//         const dislikedUsers = note.dislikes.map(dislike => dislike.user);
+  
+  
+//         res.json({ success: true, dislikedUsers });
+//       }
+        
+//      catch (error) {
+        
+//     }
+//   }
+
+
+
+
 
 // export const likeNote = async (req, res) => {
 //     try {

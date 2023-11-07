@@ -1,6 +1,6 @@
 import express from 'express';
 import  {isAuthenticated}  from '../middlewares/auth.js';
-import { getNote, newNote, updateNote, deleteNote, deleteAll, getAllnotes, likeNote, unlikeNote} from '../controllers/note.js';
+import { getNote, newNote, updateNote, deleteNote, deleteAll, getAllnotes, likeNote, unlikeNote, getLikedUsers, getDislikedUsers} from '../controllers/note.js';
 //import { likeNote, unlikeNote } from '../controllers/like.js';
 
 
@@ -13,6 +13,11 @@ const router = express.Router();
 router.put('/like/:id', isAuthenticated, likeNote);
 // Unlike a note
 router.put('/dislike/:id', isAuthenticated, unlikeNote);
+
+// Fetch liked users for a note
+router.get('/liked/:id/users', isAuthenticated, getLikedUsers);
+// Fetch disliked users for a note
+router.get('/disliked/:id/users', isAuthenticated, getDislikedUsers);
 
 
 router.get('/all', getAllnotes)
